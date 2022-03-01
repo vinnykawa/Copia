@@ -12,7 +12,7 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static final String TAG = "Table";
+ private static final String TAG = "Table";
  private ArrayList<Receipt> receipts = new ArrayList<>();
  private ArrayList<Transaction> transactions = new ArrayList<>();
 
@@ -44,14 +44,14 @@ public class MainActivity extends AppCompatActivity {
         for(int i = 0; i < receipts.size(); i++){
             Receipt item = receipts.get(i);
 
-            int receiptTotal = item.getAmountToBePaid();
+            int amountToBePaid = item.getAmountToBePaid();
 
             for(int t = 0; t < transactions.size(); t++){
                 Transaction tItem = transactions.get(t);
 
                 int transactionAmount = tItem.getAmount();
 
-                int diff = receiptTotal - (transactionAmount + remainder );
+                int diff = amountToBePaid - (transactionAmount + remainder );
 
                 if(diff==0){
 
@@ -65,7 +65,10 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 if(remainder<0){
-                    Log.d(TAG,item.getId()+" "+tItem.getRef()+" "+-(remainder)+"\n");
+                    //change remainder to positive
+                    int balance = -remainder;
+
+                    Log.d(TAG,item.getId()+" "+tItem.getRef()+" "+balance+"\n");
 
                     remainder = 0;
 
@@ -74,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
                 if(diff>0){
                     Log.d(TAG,item.getId()+" "+tItem.getRef()+" "+tItem.getAmount()+"\n");
 
-                    receiptTotal =  diff;
+                    amountToBePaid =  diff;
 
                 } else {
                     //There is a remainder
@@ -82,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
                     remainder = diff;
 
                     transactions.remove(t-1);
-                    Log.d(TAG,item.getId()+" "+tItem.getRef()+" "+receiptTotal+"\n");
+                    Log.d(TAG,item.getId()+" "+tItem.getRef()+" "+amountToBePaid+"\n");
                     break;
 
                 }
